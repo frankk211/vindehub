@@ -1,0 +1,190 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js" integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js" integrity="sha512-m3kH21aSkKrGeoqdb7IP7rlu1VcQee5VrjLQepeSOp5M05Wl6HwqJ1Jwo14EHOuBg77pkAlBtQuVMPVeXzfueg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        
+
+        {% if show_banner %}
+        <div id="sticky-banner" tabindex="-1" class="fixed top-0 start-0 z-50 flex justify-between w-full p-4 border-b border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+          <div class="flex items-center mx-auto">
+              <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
+                  <span class="inline-flex p-1 me-3 bg-gray-200 rounded-full dark:bg-gray-600 w-6 h-6 items-center justify-center flex-shrink-0">
+                      <svg class="w-3 h-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
+                          <path d="M15 1.943v12.114a1 1 0 0 1-1.581.814L8 11V5l5.419-3.871A1 1 0 0 1 15 1.943ZM7 4H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2v5a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V4ZM4 17v-5h1v5H4ZM16 5.183v5.634a2.984 2.984 0 0 0 0-5.634Z"/>
+                      </svg>
+                      <span class="sr-only">Light bulb</span>
+                  </span>
+                  <span>Aceasta platformă a fost dezvolatată ca un hobby.<br>
+                    Utilizarea VindeHub este total gratuită și vă puteți posta anunțurile fără nici un cost.<br>
+                    Dacă vă place ceea ce fac, puteți să îmi oferiți o cafea☕ <a href="https://flowbite.com" class="inline font-medium text-blue-600 underline dark:text-blue-500 underline-offset-2 decoration-600 dark:decoration-500 decoration-solid hover:no-underline">Hai la cafea</a><br>
+                  Bineînțeles, daca doriți să îmi scrieți ceva o puteți face la adresa de mail <span class="font-bold">vindehub@gmail.com</span> </span>
+              </p>
+          </div>
+          <div class="flex items-center">
+              <button data-dismiss-target="#sticky-banner" type="button" class="flex-shrink-0 inline-flex justify-center w-7 h-7 items-center text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                  </svg>
+                  <span class="sr-only">Close banner</span>
+              </button>
+          </div>
+      </div>
+      {% endif %}
+      
+      <div class="mt-8 md:hidden text-center mx-auto">
+        <a href="{% url 'item:items' %}">
+        <button type="button" class="w-full flex text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"><svg class="mr-4 w-5 h-5 text-gray-800 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+        </svg>Caută anunțuri</button>
+        </a>
+      </div>
+      
+        
+<div class="mt-2 px-6 py-8 bg-gray-100 rounded-xl">
+    <h2 class="mb-12 text-2xl text-center">Categorii</h2>
+
+    <div>
+        <swiper-container class="mySwiper grid md:grid-cols-1 space-x-0" init="false" >
+            {% for category in categories %}
+            <swiper-slide>
+              <a href="{% url 'core:category' category.id %}">
+                <div class="mx-auto w-16 text-center">
+                <img src="{{category.image.url}}"/>
+                <p class="text-sm md:text-md pt-2">{{category}}</p>
+                </div>
+              </a>
+            </swiper-slide>
+            {% endfor %}
+          </swiper-container>
+    </div>
+</div>
+
+<div><h2 class="mb-12 text-2xl text-center mt-4">Anunțuri adăgate recent</h2></div>
+<div class="infinite-container grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">   
+                {% for item in items %}
+                        <div class="infinite-item w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <a href="{% url 'item:detail' item.id %}">
+                                <img class="mb-2 rounded-t-lg h-32 xl:h-64 w-full object-cover" src="{{ item.image.url }}" alt="product image" />
+                            </a>
+                            <div class="px-5 pb-5">
+                                <a href="{% url 'item:detail' item.id %}">
+                                    <p class="text-sm font-semibold tracking-tight text-gray-900 dark:text-white">{{ item.name }}</p>
+                                </a>
+                                <div class="flex items-center mt-2.5 mb-5">
+                                    <div class="flex items-center rtl:space-x-reverse">
+                                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                        </svg>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">5.0</span>
+                                </div>
+                                <div class="flex items-center justify-between flex-col xl:flex-row xl:items-start">
+                                    <span class="mt-1 mb-2 text-sm font-bold text-gray-900 dark:text-white">{{ item.price }} LEI</span>
+                                    <a href="{% url 'item:detail' item.id %}"
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-small rounded-lg text-sm px-5 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Detalii</a>
+                                </div>
+                                <div class="flex mt-2 justify-between flex-col xl:flex-row xl:items-start">
+                                    <span class="mt-1 text-xs text-gray-900 dark:text-white">Locatie: <br>{{item.locatie}}</span>
+                                    <span class="mt-1 text-xs text-gray-900 dark:text-white">Adaugat: <br>{{ item.created_at.date }}</span>
+                                    
+                                </div>
+                                <div class="flex mt-2 justify-between flex-col xl:flex-row xl:items-start">
+                                  <span class="mt-1 text-xs text-gray-900 dark:text-white">Vizitat de: {{ item.access_count }} ori</span>
+                                </div>
+                            </div>
+                        </div>
+       
+        {% endfor %}
+        </div>
+
+        {% if numbers.has_next %}
+            <a class="infinite-more-link" href="?page={{ numbers.next_page_number }}">More</a>
+        {% endif %}
+
+        <div class="loading" style="display: none;">
+            Loading...
+          </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+        <script>
+            const swiperEl = document.querySelector('swiper-container')
+            Object.assign(swiperEl, {
+              slidesPerView: 4,
+              spaceBetween: 10,
+            //   pagination: {
+            //     clickable: true,
+            //   },
+              breakpoints: {
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 4,
+                  spaceBetween: 40,
+                },
+                1024: {
+                  slidesPerView: 6,
+                  spaceBetween: 50,
+                },
+              },
+            });
+            swiperEl.initialize();
+          </script>
+
+    <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      var banner = document.getElementById('sticky-banner');
+      var closeButton = banner.querySelector('button[data-dismiss-target="#sticky-banner"]');
+
+      // Verificăm dacă există un cookie care indică dacă bannerul a fost închis
+      var isBannerClosed = document.cookie.includes('bannerClosed=true');
+
+      // Adăugăm un eveniment de click pe butonul de închidere
+      closeButton.addEventListener('click', function () {
+          // Setăm un cookie pentru a reține că bannerul a fost închis
+          document.cookie = 'bannerClosed=true; expires=' + new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toUTCString() + '; path=/';
+          // Ascundem bannerul după închidere
+          
+      });
+  });
+</script>
+
+
+{% endblock %}
+
+
+
+
