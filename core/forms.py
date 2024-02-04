@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Your username',
-        'class': 'w-full py-4 px-6 rounded-xl',
+        'class': 'w-full py-4 px-6 rounded-xl'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder': 'Your password',
@@ -33,11 +33,3 @@ class SignupForm(UserCreationForm):
         'placeholder': 'Repeat password',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
-
-    def clean_username(self):
-        # Asigură-te că username-ul este stocat cu litere mici
-        return self.cleaned_data['username'].lower()
-
-    def clean_email(self):
-        # Asigură-te că emailul este stocat cu litere mici
-        return self.cleaned_data['email'].lower()

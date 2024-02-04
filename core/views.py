@@ -48,9 +48,6 @@ def index(request):
 def contact(request):
     return render(request, 'core/contact.html')
 
-def about(request):
-    return render(request, 'core/about.html')
-
 def loginViewTemp(request):
 
     if request.user.is_authenticated:
