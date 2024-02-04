@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Conversatie noua{% endblock %}
+
+{% block content %}
+<h1 class="mt-12 md:mt-0 mb-6 text-xl md:text-3xl">Conversatie noua cu <span class="bg-green-100 text-green-800 text-[12px] md:text-[18px] font-medium me-2 px-2.5 py-1.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">{{ item.created_by }}</span></h1>
+<div class="flex flex-col">
+    <h1 class="mb-2"><span class="font-bold">Anunț:</span> {{item.name}}</h1>
+    <img class="mx-auto h-96 w-auto md:mb-4" src="{{item.image.url}}"/>
+</div>
+<form method="post" action=".">
+    {% csrf_token %}
+
+    <div class="space-y-4 rounded-t-none">
+        {{ form.content }}
+    </div>
+
+    {% if form.errors or form.non_field_errors %}
+        <div class="mb-3 p-6 bg-red-100 rounded-xl">
+            {% for field in form %}
+                {{ field.errors }}
+            {% endfor %}
+
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+ 
+    <button class="flex mb-4 mt-6 py-2 mx-auto px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Trimite</button>
+
+</form>
+{% endblock %}
